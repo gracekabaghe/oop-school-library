@@ -1,9 +1,10 @@
 require_relative './person'
+require_relative './rental'
 
 class Student < Person
   attr_accessor :classroom
 
-  def initialize(_classroom, age, name = 'Unknown', parent_permission: true)
+  def initialize(_classroom, age, name, parent_permission)
     super(age, name, parent_permission)
     @classroom = classroom
   end
