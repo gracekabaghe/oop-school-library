@@ -2,15 +2,16 @@ require_relative './corrector'
 require_relative './rental'
 
 class Person
-  attr_accessor :id, :name, :age
+  attr_accessor :name, :age, :rentals, :parent_permission
+  attr_reader :id
 
-  def initialize(age, name = 'Unknown', parent_permission: true)
-    @id = Random.rand(1..1000)
+  def initialize(age, name = 'Unknown', parent_permission = true)
+    @id = Random.rand(1..2000)
     @name = name.capitalize
     @age = age
     @parent_permission = parent_permission
     @corrector = Corrector.new
-    @rental = []
+    @rentals = []
   end
 
   def validate_name
@@ -23,12 +24,18 @@ class Person
 
   private
 
-  def of_age?
-    @age >= 18
+  def ofage?
+    return true unless age < 18
   end
 
-  def can_use_services?
-    of_age? || parent_permission == true
+  public
+
+  def use_services?
+    return true if ofage? || parent_permission
+  end
+
+  def validate_name
+    @name = @corrector.correct_name(name)
   end
 end
 
